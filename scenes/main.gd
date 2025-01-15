@@ -10,6 +10,7 @@ class TILE:
 	const WALL := Vector2i(6,2)
 
 var dir := Vector2i.UP
+var prev_dir := Vector2i.UP
 
 func _ready() -> void:
 	draw_snake(Vector2i(-1,-1))
@@ -25,6 +26,9 @@ func _input(_event: InputEvent) -> void:
 		dir = Vector2i.RIGHT
 
 func move(move_dir: Vector2i):
+	if move_dir == -prev_dir: move_dir = prev_dir
+	prev_dir = move_dir
+	
 	var ate := false
 	var next_pos: Vector2i = snake[0] + move_dir
 	
