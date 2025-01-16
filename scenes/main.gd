@@ -15,16 +15,16 @@ var prev_dir := Vector2i.UP
 func _ready() -> void:
 	draw_snake(Vector2i(-1,-1))
 
-func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed(&"up"):
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"up"):
 		dir = Vector2i.UP
-	if Input.is_action_just_pressed(&"down"):
+	if event.is_action_pressed(&"down"):
 		dir = Vector2i.DOWN
-	if Input.is_action_just_pressed(&"left"):
+	if event.is_action_pressed(&"left"):
 		dir = Vector2i.LEFT
-	if Input.is_action_just_pressed(&"right"):
+	if event.is_action_pressed(&"right"):
 		dir = Vector2i.RIGHT
-	if  Input.is_action_just_pressed(&"close"):
+	if  event.is_action_pressed(&"close"):
 		get_tree().quit()
 
 func move(move_dir: Vector2i):
