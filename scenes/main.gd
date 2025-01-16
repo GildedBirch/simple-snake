@@ -15,15 +15,9 @@ var prev_dir := Vector2i.UP
 func _ready() -> void:
 	draw_snake(Vector2i(-1,-1))
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"up"):
-		dir = Vector2i.UP
-	if event.is_action_pressed(&"down"):
-		dir = Vector2i.DOWN
-	if event.is_action_pressed(&"left"):
-		dir = Vector2i.LEFT
-	if event.is_action_pressed(&"right"):
-		dir = Vector2i.RIGHT
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed():
+		dir = Input.get_vector(&"left", &"right", &"up", &"down")
 	if  event.is_action_pressed(&"close"):
 		get_tree().quit()
 
