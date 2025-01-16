@@ -13,7 +13,7 @@ var dir := Vector2i.UP
 var prev_dir := Vector2i.UP
 
 func _ready() -> void:
-	draw_snake(Vector2i(-1,-1))
+	draw_snake(Vector2i(-1,-1), false)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
@@ -34,34 +34,32 @@ func move(move_dir: Vector2i):
 	var clear_pos: Vector2i = snake[-1]
 	
 	# Check collision with walls, self, or food
-	var next_Tile_data: TileData = %TileMap.get_cell_tile_data(next_pos)
-	if next_Tile_data.get_custom_data("death"):
+	var next_tile_data: TileData = %TileMap.get_cell_tile_data(next_pos)
+	if next_tile_data.get_custom_data("death"):
 		get_tree().reload_current_scene()
 		return
-	elif next_Tile_data.get_custom_data("interactable"):
+	elif next_tile_data.get_custom_data("interactable"):
 		snake.append(clear_pos)
 		# Don't clear anything this round if we ate, so we can add new tail
-		clear_pos = Vector2i(-1, -1)
 		ate = true
-
 	# Move
-	for i in range(-1, -snake.size(), -1):
-		snake[i] = snake[i-1]
+	# Invert i, so we can go from tail to head
+	for i in range(1, snake.size()):
+		snake[-i] = snake[-i-1]
 	snake[0] = next_pos
-
 	# Draw snake
-	draw_snake(clear_pos)
-	
+	draw_snake(clear_pos, ate)
 	# Spawn new food
 	if ate:
 		spawn_food()
 
-func draw_snake(clear_pos: Vector2i):
+func draw_snake(clear_pos: Vector2i, keep_tile: bool):
 	%TileMap.set_cell(snake[0], 0, Tile.HEAD)
 	%TileMap.set_cell(snake[1], 0, Tile.SNAKE)
-	# Clear tail only if we didn't eat
-	if clear_pos != Vector2i(-1, -1):
-		%TileMap.set_cell(clear_pos, 0, Tile.FLOOR)
+	# Keep tail if we ate
+	if keep_tile:
+		return
+	%TileMap.set_cell(clear_pos, 0, Tile.FLOOR)
 
 # Spawn new food by getting all emtpy floor tiles
 func spawn_food() -> void:
