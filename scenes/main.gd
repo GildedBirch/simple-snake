@@ -11,7 +11,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	# Get input vector
 	if event is InputEventKey and event.is_pressed():
 		input_vector = Input.get_vector(&"left", &"right", &"up", &"down")
-		print(input_vector)
 	# Close game
 	if  event.is_action_pressed(&"close"):
 		get_tree().quit()
