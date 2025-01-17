@@ -35,21 +35,19 @@ func move(move_vector: Vector2i) -> void:
 		return
 	elif next_pos_data.get_custom_data("food"):
 		snake.append(tail_clear_pos)
-		# Don't clear anything this round if we ate, so we can add new tail
 		ate_food = true
 	# Move
 	# Invert i, so we can go from tail to head
 	for i in range(1, snake.size()):
 		snake[-i] = snake[-i-1]
-
 	snake[0] = new_head_pos
 	# Draw snake
-	draw_snake(tail_clear_pos, ate_food)
+	redraw_snake(tail_clear_pos, ate_food)
 	# Spawn new food
 	if ate_food:
 		spawn_food()
 
-func draw_snake(tail_clear_pos: Vector2i, keep_tile: bool) -> void:
+func redraw_snake(tail_clear_pos: Vector2i, keep_tile: bool) -> void:
 	tilemap.set_cell(snake[0], 0, AtlasTile.HEAD)
 	tilemap.set_cell(snake[1], 0, AtlasTile.SNAKE)
 	# Keep tail if we ate food
