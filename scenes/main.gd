@@ -16,7 +16,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if  event.is_action_pressed(&"close"):
 		get_tree().quit()
 
-func move(move_vector: Vector2i):
+func move(move_vector: Vector2i) -> void:
 	# Prevent snake from moving back to itself
 	if move_vector == -prev_vector or move_vector == Vector2i.ZERO:
 		move_vector = prev_vector
@@ -50,7 +50,7 @@ func move(move_vector: Vector2i):
 	if ate_food:
 		spawn_food()
 
-func draw_snake(tail_clear_pos: Vector2i, keep_tile: bool):
+func draw_snake(tail_clear_pos: Vector2i, keep_tile: bool) -> void:
 	tilemap.set_cell(snake[0], 0, AtlasTile.HEAD)
 	tilemap.set_cell(snake[1], 0, AtlasTile.SNAKE)
 	# Keep tail if we ate food
